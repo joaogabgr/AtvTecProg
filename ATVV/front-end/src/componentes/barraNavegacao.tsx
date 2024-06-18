@@ -13,13 +13,6 @@ export default class BarraNavegacao extends Component<Props> {
         this.gerarListaBotoes = this.gerarListaBotoes.bind(this);
     }
 
-    componentDidMount() {
-        document.addEventListener('DOMContentLoaded', function () {
-            let elems = document.querySelectorAll('.sidenav');
-            M.Sidenav.init(elems);
-        });
-    }
-
     gerarListaBotoes() {
         if (this.props.botoes.length <= 0) {
             return <></>;

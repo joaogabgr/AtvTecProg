@@ -17,10 +17,10 @@ function Servico(props: IServico) {
             confirmButtonText: "Excluir",
             confirmButtonColor: "firebrick",
             cancelButtonText: "Cancelar"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                axios.delete('http://localhost:5555/servicos/excluir/' + props.servicoID, {data: {id: props.servicoID}})
-                .then(() => {
+                const response = await axios.delete('http://localhost:5555/servicos/excluir/' + props.servicoID, {data: {id: props.servicoID}})
+                if (response.data === 1) {
                     Swal.fire({
                         title: "Serviço excluído com sucesso!",
                         icon: "success",
@@ -28,7 +28,15 @@ function Servico(props: IServico) {
                     }).then(() => {
                         window.location.reload()
                     })
-                })
+                } else {
+                    Swal.fire({
+                        title: "Erro ao excluir o serviço!",
+                        icon: "error",
+                        confirmButtonColor: "green"
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                }
             }
         });
 }

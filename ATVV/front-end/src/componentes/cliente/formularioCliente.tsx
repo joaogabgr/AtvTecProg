@@ -24,7 +24,7 @@ function FormularioCadastroCliente({ }: Props) {
         try {
             e.preventDefault()
 
-            await axios.post('http://localhost:5555/clientes/cadastrar', {
+            const response = await axios.post('http://localhost:5555/clientes/cadastrar', {
                 nome,
                 email,
                 cpf,
@@ -35,14 +35,23 @@ function FormularioCadastroCliente({ }: Props) {
                 informacoesAdicionais: info,
                 telefone
             })
-
-            Swal.fire({
-                title: "Cliente cadastrado com sucesso!",
-                icon: "success",
-                confirmButtonColor: 'green'
-            }).then(() => {
-                window.location.reload()
-            })
+            console.log(response);
+            
+            if (response.data !== null) {
+                Swal.fire({
+                    title: "Cliente cadastrado com sucesso!",
+                    icon: "success",
+                    confirmButtonColor: 'green'
+                }).then(() => {
+                    window.location.reload()
+                })
+            } else {
+                Swal.fire({
+                    title: "Erro ao cadastrar o cliente!",
+                    icon: "error",
+                    confirmButtonColor: 'green'
+                })
+            }
         } catch (error) {
             console.error('Erro ao cadastrar cliente', error);
         }

@@ -18,10 +18,10 @@ function Cliente(cliente: ICliente) {
             confirmButtonText: "Excluir",
             confirmButtonColor: 'firebrick',
             cancelButtonText: 'Cancelar'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
-                axios.delete('http://localhost:5555/clientes/excluir/' + cliente.clienteID, {data: {id: cliente.clienteID}})
-                .then(() => {
+                const response = await axios.delete('http://localhost:5555/clientes/excluir/' + cliente.clienteID, {data: {id: cliente.clienteID}})
+                if (response.data === 1) {
                     Swal.fire({
                         title: "Cliente excluído com sucesso!",
                         icon: "success",
@@ -29,7 +29,15 @@ function Cliente(cliente: ICliente) {
                     }).then(() => {
                         window.location.reload()
                     })
-                })
+                } else {
+                    Swal.fire({
+                        title: "Erro ao excluir o usuario!",
+                        icon: "error",
+                        confirmButtonColor: 'red'
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                }
             }
           });
     }
