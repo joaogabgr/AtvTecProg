@@ -6,11 +6,9 @@ export const compraClienteRepositorio = AppDataSource.getRepository(Compra)
 export const listarProdutosServicosMaisConsumidos = async () => {
     try {
         const produtosServicosMaisConsumidos = await compraClienteRepositorio.createQueryBuilder("compraCliente")
-            .select("produtoID")
-            .addSelect("servicoID")
+            .select("servicoID")
             .addSelect("SUM(COALESCE(compraCliente.quantidadeProduto, 0)) + SUM(COALESCE(compraCliente.quantidadeServico, 0))", "totalConsumido")
-            .groupBy("produtoID")
-            .addGroupBy("servicoID")
+            .groupBy("servicoID")
             .orderBy("totalConsumido", "DESC")
             .getRawMany();
 

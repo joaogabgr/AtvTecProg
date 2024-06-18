@@ -7,12 +7,10 @@ export const listarProdutosServicosMaisConsumidosFemininos = async () => {
     try {
         const produtosServicosMaisConsumidos = await compraClienteRepositorio.createQueryBuilder("compraCliente")
             .innerJoin("compraCliente.cliente", "cliente")
-            .select("produtoID")
-            .addSelect("servicoID")
+            .select("servicoID")
             .addSelect("SUM(COALESCE(compraCliente.quantidadeProduto, 0)) + SUM(COALESCE(compraCliente.quantidadeServico, 0))", "totalConsumido")
             .where("cliente.sexo = :sexo", { sexo: "Feminino" })
-            .groupBy("produtoID")
-            .addGroupBy("servicoID")
+            .groupBy("servicoID")
             .orderBy("totalConsumido", "DESC")
             .getRawMany();
 
